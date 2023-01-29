@@ -1,4 +1,4 @@
-# simple_bank
+# Simple Bank
 simple bank : PostgreSQL, transaction, docker, k8s, gin, JWT, unit test, mocking, validator,..
 
 run_container:
