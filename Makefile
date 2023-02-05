@@ -1,3 +1,5 @@
+DB_URL=postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable
+
 run_container:
 	docker run --name postgresBank -p 5433:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -d postgres:latest postgres -N 1000
 	#postgres -N 1000 means max_connections for concurrency
@@ -14,20 +16,18 @@ drop_db:
 migrate_init:
 	migrate create -ext sql -dir internal/db/migration -seq init_schema
 
-migrateup:
-	migrate -path internal/db/migration -database "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose up
-
 migrate_up:
-	migrate -path internal/db/migration -database "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose up
+	migrate -path internal/db/migration -database "$(DB_URL)" -verbose up
 
 migrate_down:
-	migrate -path internal/db/migration -database "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose down
+	migrate -path internal/db/migration -database "$(DB_URL)" -verbose down
 
 sqlc_cmd:
 	docker run --rm -v "%cd%:/src" -w /src kjconroy/sqlc generate
 
 test:
-	go test -v -cover -count=1 ./...
+	go test -v -cover -short ./...
+	#go test -v -cover -count=1 ./...
 
 test_special:
 	go test .\internal\db\sqlc\ -timeout 30s -run ^TestTransferTx -v -count=1
@@ -35,4 +35,4 @@ test_special:
 cmd_write_raw_queries:
 	docker exec -it postgresBank psql -U root simple_bank
 
-.PHONY: postgres createdb dropdb sqlc
+.PHONY: run_container start_container create_db drop_db migrate_up migrate_down sqlc_cmd test test_special cmd_write_raw_queries
