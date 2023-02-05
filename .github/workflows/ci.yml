@@ -2,9 +2,9 @@ name: ci-simpleBank
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 
 jobs:
 
@@ -20,7 +20,7 @@ jobs:
           POSTGRES_PASSWORD: secret
           POSTGRES_DB: simple_bank
         ports:
-          - 5433:5432
+          - 5432:5432
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
