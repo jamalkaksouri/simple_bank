@@ -3,7 +3,7 @@ simple bank : PostgresSQL, transaction, docker, k8s, gin, JWT, unit test, mockin
 
 run_container:
 
-	docker run --name postgresBank -p 5433:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -d postgres:latest postgres -N 1000
+	docker run --name postgresBank -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -d postgres:latest postgres -N 1000
 	#postgres -N 1000 means max_connections for concurrency
 
 start_container:
@@ -28,12 +28,12 @@ migrate_init:
 migrate_up:
 
 
-	migrate -path internal/db/migration -database "postgresql://root:secret@127.0.0.1:5433/simple_bank?sslmode=disable" -verbose up
+	migrate -path internal/db/migration -database "postgresql://root:secret@127.0.0.1:5432/simple_bank?sslmode=disable" -verbose up
 
 migrate_down:
 
 
-	migrate -path internal/db/migration -database "postgresql://root:secret@127.0.0.1:5433/simple_bank?sslmode=disable" -verbose down
+	migrate -path internal/db/migration -database "postgresql://root:secret@127.0.0.1:5432/simple_bank?sslmode=disable" -verbose down
 
 sqlc_cmd:
 
