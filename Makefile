@@ -14,11 +14,14 @@ drop_db:
 migrate_init:
 	migrate create -ext sql -dir internal/db/migration -seq init_schema
 
+migrateup:
+	migrate -path internal/db/migration -database "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose up
+
 migrate_up:
-	migrate -path internal/db/migration -database "postgresql://root:secret@127.0.0.1:5433/simple_bank?sslmode=disable" -verbose up
+	migrate -path internal/db/migration -database "postgresql://root:secret@localhost:5433/simple_bank?sslmode=disable" -verbose up
 
 migrate_down:
-	migrate -path internal/db/migration -database "postgresql://root:secret@127.0.0.1:5433/simple_bank?sslmode=disable" -verbose down
+	migrate -path internal/db/migration -database "postgresql://root:secret@localhost:5433/simple_bank?sslmode=disable" -verbose down
 
 sqlc_cmd:
 	docker run --rm -v "%cd%:/src" -w /src kjconroy/sqlc generate
