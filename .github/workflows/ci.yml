@@ -2,9 +2,9 @@ name: ci-test
 
 on:
   push:
-    branches: [main]
+    branches: [ master ]
   pull_request:
-    branches: [main]
+    branches: [ master ]
 
 jobs:
 
@@ -32,7 +32,7 @@ jobs:
       - name: Set up Go 1.x
         uses: actions/setup-go@v2
         with:
-          go-version: ^1.20
+          go-version: ^1.15
         id: go
 
       - name: Check out code into the Go module directory
@@ -40,22 +40,12 @@ jobs:
 
       - name: Install golang-migrate
         run: |
-          curl -L https://github.com/golang-migrate/migrate/releases/download/v4.12.2/migrate.linux-amd64.tar.gz | tar xvz
+          curl -L https://github.com/golang-migrate/migrate/releases/download/v4.15.2/migrate.linux-amd64.tar.gz | tar xvz
           sudo mv migrate.linux-amd64 /usr/bin/migrate
           which migrate
 
+      - name: Run migrations
+        run: make migrateup
+
       - name: Test
         run: make test
-
-#     - name: Get dependencies
-#       run: |  // 💡 We use this vertical pipe | character here to specify a multi-line commands
-#         go get -v -t -d ./...
-#         if [ -f Gopkg.toml ]; then
-#             curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
-#             dep ensure
-#         fi
-
-#     - name: Build
-#       run: go build -v .
-
-
