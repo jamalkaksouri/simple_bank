@@ -6,21 +6,21 @@ import (
 	"os"
 	"testing"
 
+	"github.com/jamalkaskouri/simple_bank/internal/db/util"
 	_ "github.com/lib/pq"
 	_ "github.com/stretchr/testify/require"
-)
-
-const (
-	dbDriver = "postgres"
-	dbSource = "postgresql://root:secret@127.0.0.1:5432/simple_bank?sslmode=disable"
 )
 
 var testQueries *Queries
 var testDB *sql.DB
 
 func TestMain(m *testing.M) {
-	var err error
-	testDB, err = sql.Open(dbDriver, dbSource)
+	config, err := util.LoadConfig("../..")
+	if err != nil {
+		log.Fatal("cannot connect to db:", err)
+	}
+
+	testDB, err = sql.Open(config.DbDriver, config.DbSource)
 	if err != nil {
 		log.Fatal("can not connect to db:", err)
 	}
