@@ -1,7 +1,7 @@
-DB_URL=postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable
+DB_URL=postgresql://root:secret@localhost:5433/simple_bank?sslmode=disable
 
 run_container:
-	docker run --name postgresBank -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -d postgres:latest postgres -N 1000
+	docker run --name postgresBank -p 5433:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -d postgres:latest postgres -N 1000
 	#postgres -N 1000 means max_connections for concurrency
 
 start_container:
