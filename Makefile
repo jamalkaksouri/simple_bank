@@ -38,7 +38,4 @@ cmd_write_raw_queries:
 server:
 	go run main.go
 
-mock:
-	mockgen -build_flags=--mod=mod -package mockdb -destination internal/db/mock/store.go github.com/techschool/simplebank/db/sqlc Store
-
 .PHONY: run_container start_container create_db drop_db migrate_up migrate_down sqlc_cmd test test_special cmd_write_raw_queries server

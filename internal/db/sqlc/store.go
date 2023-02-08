@@ -4,28 +4,21 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-
-	_ "github.com/golang/mock/mockgen/model"
 )
 
-type Store interface {
-	Querier
-	TransferTx(ctx context.Context, arg TransferTxParams) (TransferTxResult, error)
-}
-
-type SQLStore struct {
+type Store struct {
 	*Queries
 	db *sql.DB
 }
 
-func NewStore(db *sql.DB) Store {
-	return &SQLStore{
+func NewStore(db *sql.DB) *Store {
+	return &Store{
 		db:      db,
 		Queries: New(db),
 	}
 }
 
-func (s *SQLStore) execTx(ctx context.Context, fn func(queries *Queries) error) error {
+func (s *Store) execTx(ctx context.Context, fn func(queries *Queries) error) error {
 	tx, err := s.db.BeginTx(ctx, nil /*&sql.TxOptions{}*/)
 	if err != nil {
 		return err
