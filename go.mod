@@ -5,9 +5,11 @@ go 1.20
 require (
 	github.com/gin-gonic/gin v1.8.2
 	github.com/golang/mock v1.6.0
+	github.com/google/uuid v1.3.0
 	github.com/lib/pq v1.10.7
 	github.com/spf13/viper v1.15.0
 	github.com/stretchr/testify v1.8.1
+	github.com/techschool/simplebank v0.0.0-20230204160300-083a0926e973
 )
 
 require (
