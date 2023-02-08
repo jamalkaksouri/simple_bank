@@ -6,20 +6,24 @@ import (
 	"fmt"
 )
 
-// Store : By embedding Queries inside Store, all individual query functions provided by Queries will be available to Store
-type Store struct {
+type Store interface {
+	Querier
+	TransferTx(ctx context.Context, arg TransferTxParams) (TransferTxResult, error)
+}
+
+type SQLStore struct {
 	*Queries
 	db *sql.DB
 }
 
-func NewStore(db *sql.DB) *Store {
-	return &Store{
-		Queries: New(db),
+func NewStore(db *sql.DB) Store {
+	return &SQLStore{
 		db:      db,
+		Queries: New(db),
 	}
 }
 
-func (s *Store) execTx(ctx context.Context, fn func(queries *Queries) error) error {
+func (s *SQLStore) execTx(ctx context.Context, fn func(queries *Queries) error) error {
 	tx, err := s.db.BeginTx(ctx, nil /*&sql.TxOptions{}*/)
 	if err != nil {
 		return err
