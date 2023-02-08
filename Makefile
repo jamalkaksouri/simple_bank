@@ -1,7 +1,7 @@
-DB_URL=postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable
+DB_URL=postgresql://root:secret@localhost:5433/simple_bank?sslmode=disable
 
 run_container:
-	docker run --name postgresBank -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -d postgres:latest postgres -N 1000
+	docker run --name postgresBank -p 5433:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -d postgres:latest postgres -N 1000
 	#postgres -N 1000 means max_connections for concurrency
 
 start_container:
@@ -39,6 +39,6 @@ server:
 	go run main.go
 
 mock:
-	mockgen -package mockdb -destination internal/db/mock/store.go github.com/jamalkaksouri/simple_bank/internal/db/sqlc Store
+	mockgen -build_flags=--mod=mod -package mockdb -destination internal/db/mock/store.go github.com/techschool/simplebank/db/sqlc Store
 
 .PHONY: run_container start_container create_db drop_db migrate_up migrate_down sqlc_cmd test test_special cmd_write_raw_queries server
