@@ -1,4 +1,7 @@
 # Simple Bank
+
+[![ci-simpleBank](https://github.com/jamalkaksouri/simple_bank/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/jamalkaksouri/simple_bank/actions/workflows/ci.yml)
+
 simple bank : PostgresSQL, transaction, docker, k8s, gin, JWT, unit test, mocking, validator,..
 
 DB_URL=postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable
