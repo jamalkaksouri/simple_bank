@@ -27,7 +27,6 @@ sqlc_cmd:
 
 test:
 	go test -v -cover -short ./...
-	#go test -v -cover -count=1 ./...
 
 test_special:
 	go test .\internal\db\sqlc\ -timeout 30s -run ^TestTransferTx -v -count=1
@@ -39,3 +38,5 @@ server:
 	go run main.go
 
 .PHONY: run_container start_container create_db drop_db migrate_up migrate_down sqlc_cmd test test_special cmd_write_raw_queries server
+
+#for disable cache in test using flag: -count=1
