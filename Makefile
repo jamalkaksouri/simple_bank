@@ -19,8 +19,14 @@ migrate_init:
 migrate_up:
 	migrate -path internal/db/migration -database "$(DB_URL)" -verbose up
 
+migrate_up1:
+	migrate -path internal/db/migration -database "$(DB_URL)" -verbose up 1
+
 migrate_down:
 	migrate -path internal/db/migration -database "$(DB_URL)" -verbose down
+
+migrate_down1:
+	migrate -path internal/db/migration -database "$(DB_URL)" -verbose down 1
 
 sqlc_cmd:
 	docker run --rm -v "%cd%:/src" -w /src kjconroy/sqlc generate
@@ -37,6 +43,6 @@ cmd_write_raw_queries:
 server:
 	go run main.go
 
-.PHONY: run_container start_container create_db drop_db migrate_up migrate_down sqlc_cmd test test_special cmd_write_raw_queries server
+.PHONY: run_container start_container create_db drop_db migrate_up migrate_down migrate_up1 migrate_down1 sqlc_cmd test test_special cmd_write_raw_queries server
 
 #for disable cache in test using flag: -count=1
